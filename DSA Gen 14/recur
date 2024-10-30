@@ -1,0 +1,201 @@
+Here’s a recursion cheatsheet for C, covering key concepts, structure, and examples.
+
+Recursion Basics
+Recursion is a process where a function calls itself either directly or indirectly to solve a problem. Every recursive function needs two parts:
+
+Base Case: The condition under which the recursion ends.
+Recursive Case: The part of the function where it calls itself to solve smaller instances of the same problem.
+Basic Structure of Recursive Function in C
+c
+Sao chép mã
+return_type function_name(parameters) {
+    if (base_case_condition) {
+        // Base case: return value to stop recursion
+        return base_case_value;
+    } else {
+        // Recursive case: call the function again with modified parameters
+        return function_name(modified_parameters);
+    }
+}
+Types of Recursion
+Tail Recursion: The recursive call is the last operation in the function.
+Non-tail Recursion: There are operations after the recursive call.
+Examples of Common Recursive Problems
+1. Factorial of a Number (Tail Recursion)
+c
+Sao chép mã
+int factorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1;  // Base case
+    }
+    return n * factorial(n - 1);  // Recursive case
+}
+2. Fibonacci Sequence (Non-tail Recursion)
+c
+Sao chép mã
+int fibonacci(int n) {
+    if (n == 0) {
+        return 0;  // Base case
+    }
+    if (n == 1) {
+        return 1;  // Base case
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);  // Recursive case
+}
+3. Sum of Natural Numbers
+c
+Sao chép mã
+int sum(int n) {
+    if (n == 0) {
+        return 0;  // Base case
+    }
+    return n + sum(n - 1);  // Recursive case
+}
+4. Power Function (Exponentiation)
+c
+Sao chép mã
+int power(int base, int exp) {
+    if (exp == 0) {
+        return 1;  // Base case
+    }
+    return base * power(base, exp - 1);  // Recursive case
+}
+5. Reverse a String
+c
+Sao chép mã
+void reverse(char str[], int start, int end) {
+    if (start >= end) {
+        return;  // Base case
+    }
+    // Swap characters at start and end
+    char temp = str[start];
+    str[start] = str[end];
+    str[end] = temp;
+    
+    // Recursive case
+    reverse(str, start + 1, end - 1);
+}
+6. Greatest Common Divisor (GCD) - Euclidean Algorithm
+c
+Sao chép mã
+int gcd(int a, int b) {
+    if (b == 0) {
+        return a;  // Base case
+    }
+    return gcd(b, a % b);  // Recursive case
+}
+Important Points to Remember
+Base Case: It must be defined correctly to avoid infinite recursion. Every recursive function must have a base case.
+Recursion Depth: Too deep recursion can cause stack overflow. Be cautious with functions that have a large number of recursive calls.
+Tail vs Non-Tail Recursion:
+In tail recursion, the recursive call is the last operation, allowing optimizations like tail call optimization.
+In non-tail recursion, additional work is done after the recursive call, so tail call optimization cannot be applied.
+Recursive Problems:
+Recursive solutions are elegant for problems that can be divided into smaller, identical problems (like trees, factorial, and Fibonacci).
+Recursion with Arrays
+1. Binary Search in a Sorted Array
+c
+Sao chép mã
+int binarySearch(int arr[], int low, int high, int key) {
+    if (low > high) {
+        return -1;  // Base case: element not found
+    }
+    int mid = (low + high) / 2;
+    if (arr[mid] == key) {
+        return mid;  // Base case: element found
+    } else if (arr[mid] > key) {
+        return binarySearch(arr, low, mid - 1, key);  // Recursive case: search in the left half
+    } else {
+        return binarySearch(arr, mid + 1, high, key);  // Recursive case: search in the right half
+    }
+}
+Recursion with Data Structures
+1. Recursion in Linked Lists (Traversal)
+c
+Sao chép mã
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+void printList(struct Node *node) {
+    if (node == NULL) {
+        return;  // Base case
+    }
+    printf("%d -> ", node->data);  // Process current node
+    printList(node->next);  // Recursive case
+}
+2. Tree Traversal (Pre-order, In-order, Post-order)
+c
+Sao chép mã
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+// Pre-order traversal
+void preorder(struct Node* root) {
+    if (root == NULL) {
+        return;  // Base case
+    }
+    printf("%d ", root->data);  // Process root
+    preorder(root->left);  // Recursive case for left subtree
+    preorder(root->right);  // Recursive case for right subtree
+}
+
+// In-order traversal
+void inorder(struct Node* root) {
+    if (root == NULL) {
+        return;  // Base case
+    }
+    inorder(root->left);  // Recursive case for left subtree
+    printf("%d ", root->data);  // Process root
+    inorder(root->right);  // Recursive case for right subtree
+}
+
+// Post-order traversal
+void postorder(struct Node* root) {
+    if (root == NULL) {
+        return;  // Base case
+    }
+    postorder(root->left);  // Recursive case for left subtree
+    postorder(root->right);  // Recursive case for right subtree
+    printf("%d ", root->data);  // Process root
+}
+Tail Recursion Example
+Tail recursion is more efficient as it does not require storing the state for each recursive call.
+
+Tail Recursive Factorial
+c
+Sao chép mã
+int factorial_helper(int n, int result) {
+    if (n == 0 || n == 1) {
+        return result;  // Base case
+    }
+    return factorial_helper(n - 1, n * result);  // Tail recursive case
+}
+
+int factorial(int n) {
+    return factorial_helper(n, 1);  // Initial call to the helper
+}
+Common Problems Solved with Recursion
+Tower of Hanoi
+Permutations and Combinations
+Finding subsets of a set
+Merging two sorted arrays (merge step in merge sort)
+Tree traversals (preorder, inorder, postorder)
+Recursive vs Iterative Approach
+Recursion is elegant and can simplify the code for problems that involve divide-and-conquer or self-similarity.
+Iteration is often more efficient in terms of memory usage, as recursion can lead to excessive stack consumption due to function calls.
+Recursion Pitfalls
+Infinite Recursion: Forgetting to define the base case or incorrect base case leads to infinite recursive calls, causing a stack overflow.
+Stack Overflow: Deep recursion may cause a stack overflow because each recursive call consumes memory on the call stack.
+Performance: Recursion is not always the most efficient solution. For example, naive recursive solutions to the Fibonacci sequence are slow due to recomputation.
+This cheatsheet should give you a good overview of how to use recursion in C for various common problems and data structures.
+
+
+
+
+
+

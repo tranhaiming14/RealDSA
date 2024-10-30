@@ -9,8 +9,8 @@ void initArray(int* arr, int n) {
     for (int i = 0; i < n; i++) {
         arr[i] = rand() % 100;  // Generate random values between 0 and 99
     }
-}
 
+}
 // Function to build the binary tree
 TreeNode* initTree(int* arr, int n) {
     TreeNode* root = NULL;
